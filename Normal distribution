@@ -1,6 +1,7 @@
 Exercise (Normal Distribution and Z Score for Outlier Removal)
 
 You are given bhp.csv which contains property prices in the city of banglore, India. You need to examine price_per_sqft column and do following,
+dataset : https://www.kaggle.com/code/samareshpatra/bengaluru-house-data-set
 
 1.Remove outliers using percentile technique first. Use [0.001, 0.999] for lower and upper bound percentiles
 2. After removing outliers in step 1, you get a new dataframe.
