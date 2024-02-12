@@ -8,3 +8,78 @@ dataset : https://www.kaggle.com/code/samareshpatra/bengaluru-house-data-set
 3. On step(2) dataframe, use 4 standard deviation to remove outliers
 4. Plot histogram for new dataframe that is generated after step (3). Also plot bell curve on same histogram
 5. On step(2) dataframe, use zscore of 4 to remove outliers. This is quite similar to step (3) and you will get exact same result
+
+
+Note book:-------------------------------------------
+
+
+## Treating outliers using Mean, Standard deviation, Z score, Percentile
+
+import pandas as pd
+
+bhp=pd.read_csv(r"D:\Book_and_code\My_Learnings\Data Science\Stats\bhp.csv")
+
+bhp.head()
+
+bhp.shape
+
+bhp.isnull().sum()
+
+bhp.describe()
+
+p_mean=bhp.price.mean()
+print(p_mean)
+
+p_std=bhp.price.std()
+print(p_std)
+
+outlier_1=p_mean-3*p_std
+print(outlier_1)
+
+outlier_2=p_mean+3*p_std
+print(outlier_2)
+
+df_no_outliers=bhp[ (bhp.price<outlier_2) & (bhp.price>outlier_1)]
+
+df_no_outliers.head()
+
+df_no_outliers.describe()
+
+df_no_outliers.shape
+
+print(bhp.price.quantile(0.5)) ## 50% of price in bhp.csv
+
+print(bhp.price.quantile(0.001))
+
+print(bhp.price.quantile(0.999))
+
+## removing outliers using quantiles
+df_no_outlier_Quant=bhp[(bhp.price>(bhp.price.quantile(0.001)))& (bhp.price<(bhp.price.quantile(0.999)))]
+
+df_no_outlier_Quant.shape
+
+df_no_outlier_Quant.describe()
+
+import seaborn as sb
+
+sb.histplot(df_no_outlier_Quant.price,kde=True)
+
+## Removing outliers using Z-score
+
+df_no_outlier_Quant['z_score']=(df_no_outlier_Quant.price
+                                -df_no_outlier_Quant.price.mean())/df_no_outlier_Quant.price.std()
+
+df_no_outlier_Quant.head()
+
+df_no_outlier_Z_score=df_no_outlier_Quant[(df_no_outlier_Quant.z_score>-4) & (df_no_outlier_Quant.z_score<4)]
+
+df_no_outlier_Z_score.shape
+
+df_no_outlier_Z_score.head()
+
+df_no_outlier_Quant.shape[0]-df_no_outlier_Z_score.shape[0] # no. of outliers removed
+
+
+
+
+
